@@ -1,0 +1,76 @@
+=============
+Introduction
+=============
+
+This subdirectory contains an implementation of Faster R-CNN which can be built to run on either CPUs or GPUs.
+
+In this implementation, Faster R-CNN uses the ZF network.
+
+
+=============
+Installation
+=============
+
+The Faster-RCNN benchmark is more difficult to install than the others. Let me know if this document isn't enough to guide you through the process.
+
+Dependencies:
+	* Caffe dependecies:
+		$ sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
+		$ sudo apt-get install libopencv-dev
+		$ sudo apt-get install --no-install-recommends libboost-all-dev
+		$ sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev
+	* Pycaffe dependencies (I may have forgotten some):
+		$ pip install numpy
+		$ pip install scikit-image
+		$ pip install easy-dict
+		$ pip install opencv-python
+	* (Optional) CUDA
+	* (Optional) CUDNN
+
+Build:
+	To download source and models:
+		$ git clone --recursive https://github.com/rbgirshick/py-faster-rcnn.git
+		$ cd py-faster-rcnn; ./data/scripts/fetch_faster_rcnn_models.sh; cd ..
+
+	To build:
+		$ mv py-faster-rcnn/tools/demo.py py-faster-rcnn/tools/old_demo.py
+		$ cp install/demo.py py-faster-rcnn/tools/demo.py
+
+		For CPU-only installation:
+			$ cd install
+			$ sh cpu_install.sh
+			$ cd ..
+
+			Change line 29 of "benchmark" to:
+				./tools/demo.py --net zf --cpu >../output
+		
+		$ cd py-faster-rcnn/lib
+		$ make
+		$ cd ../..
+
+		On Ubuntu 16.04:
+			$ cp install/Makefile.config.example.ubuntu16.04 py-faster-rcnn/caffe-fast-rcnn/Makefile.config
+			$ cp install/Makefile.ubuntu16.04 py-faster-rcnn/caffe-fast-rcnn/Makefile
+
+		If using CUDNN v5:
+			Try the solution at https://github.com/rbgirshick/py-faster-rcnn/issues/237:
+				$ cd py-faster-rcnn/caffe-fast-rcnn  
+				$ git remote add caffe https://github.com/BVLC/caffe.git
+				$ git fetch caffe
+				$ git merge -X theirs caffe/master
+				$ cd ../..
+
+				Remove self_.attr("phase") = static_cast<int>(this->phase_); from include/caffe/layers/python_layer.hpp after merging.
+
+		Modify py-faster-rcnn/Makefile.config to fit your own configuration:
+			For CPU-only installation:
+				Uncomment line 8:
+					CPU_ONLY := 1
+
+			For CUDNN installation:
+				Uncomment line 5:
+					USE_CUDNN := 1
+
+		$ cd py-faster-rcnn/caffe-fast-rcnn
+		$ make -j4 && make pycaffe
+		$ cd ../..

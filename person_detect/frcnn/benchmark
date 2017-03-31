@@ -1,0 +1,47 @@
+#!/bin/bash
+
+DATA=".."
+MAX_SAMPLES="614"
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    --max_samples)
+    MAX_SAMPLES="$2"
+    shift # past argument
+    ;;
+    --data)
+    DATA="$2"
+    shift # past argument
+    ;;
+    -h|--help)
+    echo "usage: benchmark [-h] [--data DATA] [--max_samples MAX_SAMPLES]"
+    echo
+    echo "Object detection benchmark."
+    echo
+    echo "optional arguments:"
+    echo "  -h, --help            show this help message and exit"
+    echo "  --data DATA           Location of dataset. Default: .."
+    echo "  --max_samples MAX_SAMPLES"
+    echo "               Maximum number of dataset samples to test. Default:"
+    echo "                614"
+    exit
+    ;;
+    *)
+    ;;
+esac
+shift # past argument or value
+done
+
+python create_pos_lst.py --max_samples $MAX_SAMPLES --data $DATA
+
+cd py-faster-rcnn
+./tools/demo.py --net zf >../output
+rm frcnn_pos.lst
+cd ..
+
+python find_avg.py
+rm output

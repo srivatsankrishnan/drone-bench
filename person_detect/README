@@ -1,0 +1,36 @@
+=============
+Introduction
+=============
+
+This directory contains object detection benchmarking programs that test various object detection algorithms. For more information, read the README in each subdirectory.
+
+The four object detection algorithms tested are:
+	1. Haar Cascade Detection
+	2. HOG Cascade Detection
+	3. YOLO (You Only Look Once)
+	4. Faster R-CNN
+
+Our dataset is a subset of the INRIA Person Dataset. We use only images from the "positive training" subdirectory of the dataset.
+
+
+=============
+Installation
+=============
+
+To download dataset:
+	$ sh download_dataset.sh
+
+Each of the object detection algorithms must be installed individually (otherwise, installation would be prohibitively slow). Instructions can be found in each subdirectory's README.
+
+
+======
+Usage
+======
+
+Each benchmark program has the same usage:
+
+	./benchmark [-h] [--data DATA] [--max_samples M_S]
+
+		-h, --help			Show this help message and exit
+		--data DATA			Location of dataset folder. Default: ..
+		--max_samples M_S	Maximum number of dataset samples to test. Default: 614

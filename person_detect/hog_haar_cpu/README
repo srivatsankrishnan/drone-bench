@@ -1,0 +1,14 @@
+=============
+Introduction
+=============
+
+This subdirectory contains implementations of Haar Cascade and HOG detection, running on a CPU.
+
+
+=============
+Installation
+=============
+
+Dependencies:
+	* OpenCV Python bindings:
+		$ pip install opencv-python

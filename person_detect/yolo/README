@@ -1,0 +1,34 @@
+=============
+Introduction
+=============
+
+This subdirectory contains an implementation of YOLO which can be built to run on either CPUs or GPUs.
+
+
+=============
+Installation
+=============
+
+Dependencies:
+	* (Optional) CUDA
+	* (Optional) CUDNN
+
+Build:
+	 To download source and weights:
+		$ git clone https://github.com/pjreddie/darknet
+		$ wget -O darknet/yolo.weights http://pjreddie.com/media/files/yolo.weights
+
+	To build CPU implementation:
+		$ cp install/Makefile_CPU darknet/Makefile
+		$ cd darknet
+		$ make
+
+	To build GPU implementation without CUDNN
+		$ cp install/Makefile_GPU darknet/Makefile
+		$ cd darknet
+		$ make
+
+	To build GPU implementation with CUDNN
+		$ cp install/Makefile_GPU_CUDNN darknet/Makefile
+		$ cd darknet
+		$ make

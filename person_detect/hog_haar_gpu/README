@@ -1,0 +1,16 @@
+=============
+Introduction
+=============
+
+This subdirectory contains implementations of Haar Cascade and HOG detection, running on CUDA-enabled GPUs.
+
+
+=============
+Installation
+=============
+
+Dependencies:
+	* OpenCV 2.4.13 or later with CUDA support
+
+Build:
+	$ sh build.sh

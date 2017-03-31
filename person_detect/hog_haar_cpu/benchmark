@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+
+import numpy as np
+import cv2
+import argparse
+import objdetect
+
+# Read command line arguments
+object_detection_algorithms = {"haar_cpu" : objdetect.find_target_haar_cpu, "hog_cpu" : objdetect.find_target_hog_cpu}
+
+parser = argparse.ArgumentParser(description='Object detection benchmark.')
+parser.add_argument('--data',
+                   help="Location of dataset. Default: ..")
+parser.add_argument('--max_samples',
+                   help="Maximum number of dataset samples to test. Default: 614")
+args = parser.parse_args()
+
+dataset = args.data if args.data is not None else ".."
+max_samples = int(args.max_samples) if args.max_samples is not None else 1000
+
+if dataset[-1] == "/":
+	dataset = dataset[0:-1]
+
+# Initialize object detection algorithms
+objdetect.init_find_target()
+
+for od in object_detection_algorithms:
+
+	find_target = object_detection_algorithms[od]
+
+	# Initialize averaging variables
+	total_time = 0
+	samples = 0
+
+	# Start testing pos files
+	with open("{}/dataset/pos.lst".format(dataset)) as pos_lst:
+		for image_name in pos_lst:
+			image_name = "{}/{}".format(dataset, image_name).rstrip()
+
+			img = cv2.imread(image_name, cv2.IMREAD_GRAYSCALE)
+
+			result = find_target(img)
+
+			total_time += result[1]
+			samples += 1
+
+			if samples >= max_samples:
+				break
+
+	avg = (total_time / samples)
+	print "Object detection algorithm:", od
+	print "\tAverage time to detect targets (s):", avg
+	print "\tFPS:", 1/avg

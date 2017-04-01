@@ -1,0 +1,17 @@
+=============
+Introduction
+=============
+
+This directory contains our SLAM benchmarking programs. Currently, only ORB-SLAM2 is implemented, but other SLAM algorithms such as LSD-SLAM may be added in the future.
+
+For more information, read the README in the orb_slam2 subdirectory.
+
+
+=============
+Installation
+=============
+
+To download dataset:
+	$ sh download_dataset.sh
+
+Instructions on how to install ORB-SLAM2 can be found in orb_slam2/README.

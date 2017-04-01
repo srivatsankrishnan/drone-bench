@@ -1,0 +1,48 @@
+=============
+Introduction
+=============
+
+This subdirectory contains an implementation of ORB-SLAM2. The official ORB-SLAM2 implementation runs only on CPUs, but a GPU-optimized fork is available at https://github.com/yunchih/ORB-SLAM2-GPU2016-final. Currently, however, we only implement the official CPU version.
+
+Our benchmark program does not represent the tracking algorithms graphically, but the graphical examples are a lot more interesting to watch than a blinking cursor. If you wish to look at a graphical example, run:
+	$ ORB_SLAM2/Examples/Stereo/stereo_euroc ORB_SLAM2/Vocabulary/ORBvoc.txt ORB_SLAM2/Examples/Stereo/EuRoC.yaml ../dataset/MH01/mav0/cam0/data ../dataset/MH01/mav0/cam1/data ORB_SLAM2/Examples/Stereo/EuRoC_TimeStamps/MH01.txt
+
+We use the EuRoC MAV dataset (MH01, MH02, and MH05).
+
+
+=============
+Installation
+=============
+
+Dependencies:
+	* Pangolin (https://github.com/stevenlovegrove/Pangolin)
+	* OpenCV 2.4.3 or later
+	* Eigen3:
+		$ sudo apt-get install libeigen3-dev
+
+Build:
+	To download source:
+		$ git clone https://github.com/raulmur/ORB_SLAM2.git ORB_SLAM2
+
+	To build:
+		$ cd ORB_SLAM2
+		$ sh build.sh
+		$ cd ..
+
+		If build fails:
+			Try changing line 30 of ORB_SLAM2/build.sh to:
+				cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-include unistd.h"
+			And then try again
+
+		$ sh compile.sh
+
+
+======
+Usage
+======
+
+./benchmark [-h] [--data DATA] [--difficulty DIFF]
+
+	-h, --help			Show this help message and exit
+	--data DATA			Location of dataset folder. Default: ..
+	--difficulty DIFF	Which dataset in the dataset folder to pick. Options: easy, medium, hard. Default: easy
